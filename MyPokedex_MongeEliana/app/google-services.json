@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "569464603786",
+    "firebase_url": "https://mypokedex-a2fa1-default-rtdb.firebaseio.com",
+    "project_id": "mypokedex-a2fa1",
+    "storage_bucket": "mypokedex-a2fa1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569464603786:android:2fb90625ba9f33434c9973",
+        "android_client_info": {
+          "package_name": "itson.appsmoviles.mypokedex_mongeeliana"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq-eSbt9_b7h7WKMOxLLN8g48jRKiXhlw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
