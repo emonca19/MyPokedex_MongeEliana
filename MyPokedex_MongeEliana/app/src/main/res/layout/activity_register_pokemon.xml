@@ -1,67 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".RegisterPokemonActivity">
 
-
     <TextView
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add pokemon"
-        android:textSize="25sp"
-        android:layout_gravity="center"
-        android:layout_marginTop="25sp"
-        />
-
+        android:text="Add Pokemon"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/pokemonName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginHorizontal="25dp"
+        android:hint="Pokemon Name"
         android:inputType="text"
-        />
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        android:background="@drawable/edit_text_bg"/>
 
     <EditText
         android:id="@+id/pokemonNumber"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginHorizontal="25dp"
+        android:hint="Pokemon Number"
         android:inputType="number"
-        />
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pokemonName"
+        android:background="@drawable/edit_text_bg"/>
 
     <ImageView
         android:id="@+id/tumbnail"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="24dp"
         android:layout_gravity="center"
-        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pokemonNumber"
         />
 
     <Button
         android:id="@+id/selectImage"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Select image"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_height="wrap_content"
+        android:text="Select Image"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_bg"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tumbnail"/>
 
     <Button
         android:id="@+id/savePokemon"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="Save pokemon"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Pokemon"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectImage"
+        android:layout_marginTop="24dp"/>
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,11 +37,11 @@ class RegisterPokemonActivity : AppCompatActivity() {
     private var imageUri: Uri? = null
     var uploadedImageUrl: String = ""
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register_pokemon)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -49,13 +49,12 @@ class RegisterPokemonActivity : AppCompatActivity() {
         }
 
         initCloudinary()
+
         etPokemonName = findViewById(R.id.pokemonName)
         etPokemonNumber = findViewById(R.id.pokemonNumber)
         btnSelectImage = findViewById(R.id.selectImage)
         btnSavePokemon = findViewById(R.id.savePokemon)
         ivPokemonImage = findViewById(R.id.tumbnail)
-
-
 
         btnSelectImage.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -66,9 +65,20 @@ class RegisterPokemonActivity : AppCompatActivity() {
         btnSavePokemon.setOnClickListener {
             savePokemon()
         }
-
-
     }
+
+    private fun initCloudinary() {
+        try {
+            MediaManager.get()  // Si ya está inicializado, esto no lanza error
+            Log.d("Cloudinary", "Cloudinary ya estaba inicializado")
+        } catch (e: Exception) {
+            val config: MutableMap<String, String> = HashMap()
+            config["cloud_name"] = CLOUD_NAME
+            MediaManager.init(this, config)
+            Log.d("Cloudinary", "Cloudinary inicializado por primera vez")
+        }
+    }
+
 
     private fun savePokemon() {
         if (!validateFields()) return
@@ -85,7 +95,7 @@ class RegisterPokemonActivity : AppCompatActivity() {
                     override fun onSuccess(requestId: String?, resultData: Map<*, *>) {
                         Log.d("Cloudinary", "Upload successful: $resultData")
                         uploadedImageUrl = resultData["secure_url"] as String
-                        persistPokemon()  // 👈 Aquí ya puedes guardar el Pokémon
+                        persistPokemon()
                     }
 
                     override fun onError(requestId: String?, error: ErrorInfo?) {
@@ -99,6 +109,7 @@ class RegisterPokemonActivity : AppCompatActivity() {
                 }).dispatch()
         }
     }
+
     private fun persistPokemon() {
         val pokemon = Pokemon(
             name = etPokemonName.text.toString(),
@@ -111,44 +122,32 @@ class RegisterPokemonActivity : AppCompatActivity() {
         finish()
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
             val fullPhotoUri: Uri? = data?.data
-
             if (fullPhotoUri != null) {
-                imageUri = fullPhotoUri  // 👈 IMPORTANTE: guardar la URI aquí
+                imageUri = fullPhotoUri
                 changeImage(fullPhotoUri)
             }
         }
     }
 
     private fun changeImage(uri: Uri) {
-        val thumbnail: ImageView = findViewById(R.id.tumbnail)
         try {
-            thumbnail.setImageURI(uri)
+            ivPokemonImage.setImageURI(uri)
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun initCloudinary() {
-
-            val config: MutableMap<String,String> = HashMap<String, String>()
-            config["cloud_name"] = CLOUD_NAME
-            MediaManager.init(this, config)
-            Log.d("Cloudinary", "Cloudinary initialized")
-
-    }
-
     private fun validateFields(): Boolean {
-        if (etPokemonName.text.isEmpty() || etPokemonName.text.isBlank()) {
+        if (etPokemonName.text.isNullOrBlank()) {
             Toast.makeText(this, "Please enter a name", Toast.LENGTH_SHORT).show()
             return false
         }
-        if (etPokemonNumber.text.isEmpty() || etPokemonNumber.text.isBlank()) {
+        if (etPokemonNumber.text.isNullOrBlank()) {
             Toast.makeText(this, "Please enter a number", Toast.LENGTH_SHORT).show()
             return false
         }
@@ -158,5 +157,4 @@ class RegisterPokemonActivity : AppCompatActivity() {
         }
         return true
     }
-
 }
