@@ -21,7 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        pokemonListView = findViewById(R.id.pokemonList)
+        pokemonAdapter = PokemonAdapter(this, pokemonList)
+        pokemonListView.adapter = pokemonAdapter
 
         val addPokemonButton: Button = findViewById(R.id.addPokemon)
         addPokemonButton.setOnClickListener {
@@ -29,6 +31,24 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        loadPokemons()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadPokemons()
+    }
+
+    private fun loadPokemons() {
+        PokemonRepository.getAllPokemons(
+            onSuccess = { list ->
+                pokemonList.clear()
+                pokemonList.addAll(list)
+                pokemonAdapter.notifyDataSetChanged()
+            },
+            onFailure = { exception ->
+                Toast.makeText(this, "Error loading Pokémons: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
 }

@@ -14,15 +14,20 @@ object PokemonRepository {
         pokemonsRef.push().setValue(pokemon)
     }
 
-
-
-    fun getAllPokemons(onSuccess: (List<Map<String, String>>) -> Unit, onFailure: (Exception) -> Unit) {
+    fun getAllPokemons(
+        onSuccess: (List<Pokemon>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         pokemonsRef.get()
             .addOnSuccessListener { snapshot ->
-                val pokemonList = mutableListOf<Map<String, String>>()
+                val pokemonList = mutableListOf<Pokemon>()
                 snapshot.children.forEach { child ->
-                    val pokemon = child.value as? Map<String, String>
-                    pokemon?.let { pokemonList.add(it) }
+                    val name = child.child("name").getValue(String::class.java) ?: ""
+                    val number = child.child("number").getValue(Int::class.java) ?: 0
+                    val imageUrl = child.child("imageUrl").getValue(String::class.java) ?: ""
+
+                    val pokemon = Pokemon(name, number, imageUrl)
+                    pokemonList.add(pokemon)
                 }
                 onSuccess(pokemonList)
             }
@@ -30,5 +35,4 @@ object PokemonRepository {
                 onFailure(e)
             }
     }
-
 }
